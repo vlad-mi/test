@@ -24,7 +24,7 @@ jobs:
         with:
           ref: 'temp'
 
-      - name: Make Changes
+      - name: Make Some Changes
         run: |
           "Hello" > report.txt
           git config user.name github-actions
