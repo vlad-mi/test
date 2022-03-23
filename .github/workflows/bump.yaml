@@ -37,6 +37,7 @@ jobs:
         id: cpr
         uses: repo-sync/pull-request@v2
         with:
+          source_branch: "temp"
           destination_branch: "main"
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
