@@ -33,19 +33,17 @@ jobs:
           git commit -m "Made Changes"
           git push
 
-      #- name: Checkout
-      #  uses: actions/checkout@v3
-      #  with:
-      #    ref: 'main'
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      #- name: Create Pull Request
-      #  id: cpr
-      #  uses: peter-evans/create-pull-request@v4
-      #  with:
-      #    branch: temp
-      #    signoff: false
-      #    draft: false
-      #    delete-branch: false
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v4
+        with:
+          branch: temp
+          signoff: false
+          draft: false
+          delete-branch: false
 
       #- name: Approve Pull Request
       #  uses: juliangruber/approve-pull-request-action@v1
