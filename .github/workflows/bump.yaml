@@ -19,14 +19,13 @@ jobs:
         with:
           branch: 'temp'
 
-      #- name: Checkout Temporary Branch
-      #  uses: actions/checkout@v3
-      #  with:
-      #    ref: 'temp'
+      - name: Checkout Temporary Branch
+        uses: actions/checkout@v3
+        with:
+          ref: 'temp'
 
       - name: Make Some Changes
         run: |
-          git checkout temp
           echo "Hello" > report.txt
           git config user.name github-actions
           git config user.email github-actions@github.com
