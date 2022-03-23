@@ -1,4 +1,4 @@
-name: Build
+name: Bump Version
 
 on:
   push:
@@ -34,3 +34,14 @@ jobs:
           git add .
           git commit -m "set version for next release: ${NEW_VERSION}"
           git push
+
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v4
+
+      - name: Approve Pull Request
+        uses: juliangruber/approve-pull-request-action@v1
+        with:
+          github-token: ${{ secrets.TECHNICAL_USER_TOKEN }}
+          number: ${{ steps.cpr.outputs.pull-request-number }}"
+
