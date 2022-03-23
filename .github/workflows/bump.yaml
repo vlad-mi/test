@@ -12,24 +12,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Create Technical Branch
+      - name: Create Temporary Branch
         uses: peterjgrainger/action-create-branch@v2.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          branch: 'technical'
+          branch: 'temp'
 
-      - name: Checkout Technical Branch
+      - name: Checkout Temporary Branch
         uses: actions/checkout@v3
         with:
-          ref: 'technical'
-
-      - name: Update Technical Branch
-        uses: devmasx/merge-branch@master
-        with:
-          type: now
-          target_branch: main
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          ref: 'temp'
 
       - name: Set POM_VERSION
         run: echo "POM_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
@@ -49,7 +42,7 @@ jobs:
         id: cpr
         uses: repo-sync/pull-request@v2
         with:
-          source_branch: "technical"
+          source_branch: "temp"
           destination_branch: "main"
           github_token: ${{ secrets.GITHUB_TOKEN }}
           pr_title: "Bump Version"
