@@ -12,11 +12,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Bump Version
-        id: bump
-        uses: nnichols/maven-version-bump-action@v3
+      - name: Create Temporary Branch
+        uses: peterjgrainger/action-create-branch@v2.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          github-token: ${{ secrets.TOKEN_ACTION }}
+          branch: 'temp'
 
-      - name: Print Version
-        run: "echo 'New Version: ${{steps.bump.outputs.version}}'"
+      - name: Checkout Temporary Branch
+        uses: actions/checkout@v2
+        with:
+          ref: 'temp'
+
+      - name: Bump Version
+        run: |
+          NEW_VERSION=$(echo ${POM_VERSION} | awk -F. '{ minor=$2+1; print $1"."minor"."$3}')
+          echo  "New version: ${NEW_VERSION}"
+          mvn versions:set -DnewVersion=${NEW_VERSION} -DgenerateBackupPoms=false
+          git config --global user.email "release-bot@movingimage.com"
+          git config --global user.name "Release Bot"
+          git add .
+          git commit -m "set version for next release: ${NEW_VERSION}"
+          git push
