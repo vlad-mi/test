@@ -25,12 +25,13 @@ jobs:
           ref: 'temp'
 
       - name: Make Some Changes
-        uses: DamianReeves/write-file-action
-        with:
-          path: ${{ env.home }}/report.txt
-          contents: |
-            echo "Hello World!"
-          write-mode: append
+        run: |
+          echo "Hello" > report.txt
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "Made Changes"
+          git push
 
       - name: Checkout
         uses: actions/checkout@v3
