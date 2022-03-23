@@ -42,7 +42,8 @@ jobs:
         id: cpr
         uses: peter-evans/create-pull-request@v4
         with:
-          base: temp
+          base: main
+          branch: temp
 
       - name: Approve Pull Request
         uses: juliangruber/approve-pull-request-action@v1
