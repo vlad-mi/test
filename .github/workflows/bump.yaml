@@ -40,7 +40,6 @@ jobs:
         uses: peter-evans/create-pull-request@v4
         with:
           base: temp
-          branch: main
 
       - name: Approve Pull Request
         uses: juliangruber/approve-pull-request-action@v1
