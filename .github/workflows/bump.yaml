@@ -24,6 +24,9 @@ jobs:
         with:
           ref: 'temp'
 
+      - name: Set POM_VERSION
+        run: echo "POM_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+
       - name: Bump Version
         run: |
           NEW_VERSION=$(echo ${POM_VERSION} | awk -F. '{ minor=$2+1; print $1"."minor"."$3}')
