@@ -12,18 +12,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Create Temporary Branch
-        uses: peterjgrainger/action-create-branch@v2.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          branch: 'temporary'
-
-      - name: Checkout Temporary Branch
-        uses: actions/checkout@v3
-        with:
-          ref: 'temporary'
-
       - name: Make Some Changes
         run: |
           echo "Hello" > report.txt
@@ -33,22 +21,3 @@ jobs:
           git commit -m "Made Changes"
           git push
 
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          ref: 'main'
-
-      - name: Create Pull Request
-        id: cpr
-        uses: peter-evans/create-pull-request@v4
-        with:
-          branch: temporary
-          signoff: false
-          draft: false
-          delete-branch: false
-
-      - name: Approve Pull Request
-        uses: juliangruber/approve-pull-request-action@v1
-        with:
-          github-token: ${{ secrets.TECHNICAL_USER_TOKEN }}
-          number: ${{ steps.cpr.outputs.pull-request-number }}"
