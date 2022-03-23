@@ -33,13 +33,11 @@ jobs:
           git commit -m "Made Changes"
           git push
 
-      - name: Checkout
-        uses: actions/checkout@v3
-
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v4
         with:
+          base: main
           branch: temp
           signoff: false
           draft: false
