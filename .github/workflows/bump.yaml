@@ -33,15 +33,13 @@ jobs:
           git commit -m "Made Changes"
           git push
 
-      #- name: Create Pull Request
-      #  id: cpr
-      #  uses: peter-evans/create-pull-request@v4
-      #  with:
-      #    base: main
-      #    branch: temp
-      #    signoff: false
-      #    draft: false
-      #    delete-branch: false
+      - name: Create Pull Request
+        id: cpr
+        uses: devops-infra/action-pull-request@v0.4.2
+        with:
+          source_branch: temp
+          target_branch: main
+          title: Bump Version
 
       #- name: Approve Pull Request
       #  uses: juliangruber/approve-pull-request-action@v1
