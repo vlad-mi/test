@@ -26,7 +26,7 @@ jobs:
 
       - name: Make Some Changes
         run: |
-          echo "Hello" > report.txt
+          echo "Hello" >> report.txt
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
