@@ -38,12 +38,15 @@ jobs:
           git commit -m "set version for next release: ${NEW_VERSION}"
           git push
 
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Create Pull Request
         id: cpr
         uses: peter-evans/create-pull-request@v4
         with:
-          base: main
           branch: temp
+          draft: false
 
       - name: Approve Pull Request
         uses: juliangruber/approve-pull-request-action@v1
