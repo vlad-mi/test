@@ -40,9 +40,10 @@ jobs:
           source_branch: "temp"
           destination_branch: "main"
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_title: "Bump Version"
 
-      #- name: Approve Pull Request
-      #  uses: juliangruber/approve-pull-request-action@v1
-      #  with:
-      #    github-token: ${{ secrets.TECHNICAL_USER_TOKEN }}
-      #    number: ${{ steps.cpr.outputs.pull-request-number }}"
+      - name: Approve Pull Request
+        uses: juliangruber/approve-pull-request-action@v1
+        with:
+          github-token: ${{ secrets.TECHNICAL_USER_TOKEN }}
+          number: ${{ steps.cpr.outputs.pr_number }}"
