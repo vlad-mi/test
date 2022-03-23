@@ -44,4 +44,3 @@ jobs:
         with:
           github-token: ${{ secrets.TECHNICAL_USER_TOKEN }}
           number: ${{ steps.cpr.outputs.pull-request-number }}"
-
