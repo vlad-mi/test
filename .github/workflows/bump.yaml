@@ -12,32 +12,44 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Create Temporary Branch
+      - name: Create Technical Branch
         uses: peterjgrainger/action-create-branch@v2.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          branch: 'temp'
+          branch: 'technical'
 
-      - name: Checkout Temporary Branch
+      - name: Checkout Technical Branch
         uses: actions/checkout@v3
         with:
-          ref: 'temp'
+          ref: 'technical'
 
-      - name: Make Some Changes
+      - name: Update Technical Branch
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          target_branch: main
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set POM_VERSION
+        run: echo "POM_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
+
+      - name: Bump Version
         run: |
-          echo "Hello" >> report.txt
+          NEW_VERSION=$(echo ${POM_VERSION} | awk -F. '{ minor=$2+1; print $1"."minor"."$3}')
+          echo "New version: ${NEW_VERSION}"
+          mvn versions:set -DnewVersion=${NEW_VERSION} -DgenerateBackupPoms=false
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
-          git commit -m "Made Changes"
+          git commit -m "Set version for next release: ${NEW_VERSION}"
           git push
 
       - name: Create Pull Request
         id: cpr
         uses: repo-sync/pull-request@v2
         with:
-          source_branch: "temp"
+          source_branch: "technical"
           destination_branch: "main"
           github_token: ${{ secrets.GITHUB_TOKEN }}
           pr_title: "Bump Version"
