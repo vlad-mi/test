@@ -45,7 +45,7 @@ jobs:
           source_branch: "temp"
           destination_branch: "main"
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          pr_title: "Bump Version"
+          pr_title: echo "Bump Version to ${{ env.NEW_VERSION }}"
 
       - name: Approve Pull Request
         uses: juliangruber/approve-pull-request-action@v1
